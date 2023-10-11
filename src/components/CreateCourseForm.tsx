@@ -13,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
+import SubscriptionAction from "./SubscriptionAction";
 
 type Props = {};
 
@@ -152,6 +153,8 @@ const CreateCourseForm = (props: Props) => {
           </Button>
         </form>
       </Form>
+
+      <SubscriptionAction />
     </div>
   );
 };
