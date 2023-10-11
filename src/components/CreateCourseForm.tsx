@@ -15,11 +15,11 @@ import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
 import SubscriptionAction from "./SubscriptionAction";
 
-type Props = {};
+type Props = { isPro: boolean };
 
 type Input = z.infer<typeof createChapterSchema>;
 
-const CreateCourseForm = (props: Props) => {
+const CreateCourseForm = ({ isPro }: Props) => {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -153,8 +153,7 @@ const CreateCourseForm = (props: Props) => {
           </Button>
         </form>
       </Form>
-
-      <SubscriptionAction />
+      {!isPro && <SubscriptionAction />}
     </div>
   );
 };
