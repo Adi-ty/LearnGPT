@@ -1,3 +1,4 @@
+import TypewriterTitle from "@/components/TypewriterTitle";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -11,6 +12,10 @@ export default function Home() {
         AI powered learning platform
       </h1>
       <div className="mt-4"></div>
+      <h2 className="font-semibold text-3xl text-center text-slate-700 dark:text-yellow-300">
+        <TypewriterTitle />
+      </h2>
+      <div className="mt-8"></div>
       <div className="flex justify-center">
         <Link href="/gallery">
           <Button className="bg-yellow-600">
