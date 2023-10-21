@@ -2,10 +2,15 @@ import CreateCourseForm from "@/components/CreateCourseForm";
 import { getAuthSession } from "@/lib/auth";
 import { checkSubscription } from "@/lib/subscription";
 import { InfoIcon } from "lucide-react";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import React from "react";
 
 type Props = {};
+
+export const metadata: Metadata = {
+  title: "KnowPath - Learn GPT | Create",
+};
 
 const CreatePage = async (props: Props) => {
   const session = await getAuthSession();

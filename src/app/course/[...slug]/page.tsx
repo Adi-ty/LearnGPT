@@ -3,6 +3,7 @@ import MainVideoSummary from "@/components/MainVideoSummary";
 import QuizCards from "@/components/QuizCards";
 import { prisma } from "@/lib/db";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -11,6 +12,10 @@ type Props = {
   params: {
     slug: string[];
   };
+};
+
+export const metadata: Metadata = {
+  title: "KnowPath - Learn GPT",
 };
 
 const CoursePage = async ({ params: { slug } }: Props) => {

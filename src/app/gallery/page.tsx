@@ -1,8 +1,13 @@
 import GalleryCourseCard from "@/components/GalleryCourseCard";
 import { prisma } from "@/lib/db";
+import type { Metadata } from "next";
 import React from "react";
 
 type Props = {};
+
+export const metadata: Metadata = {
+  title: "KnowPath - Learn GPT | Gallery",
+};
 
 const GalleryPage = async (props: Props) => {
   const courses = await prisma.course.findMany({

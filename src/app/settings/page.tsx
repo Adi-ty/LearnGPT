@@ -1,8 +1,13 @@
 import SubscriptionButton from "@/components/SubscriptionButton";
 import { checkSubscription } from "@/lib/subscription";
+import type { Metadata } from "next";
 import React from "react";
 
 type Props = {};
+
+export const metadata: Metadata = {
+  title: "KnowPath - Learn GPT | Settings",
+};
 
 const SettingsPage = async (props: Props) => {
   const isPro = await checkSubscription();

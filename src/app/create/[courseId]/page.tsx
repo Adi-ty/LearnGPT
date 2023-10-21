@@ -2,6 +2,7 @@ import ConfirmChapters from "@/components/ConfirmChapters";
 import { getAuthSession } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { Info } from "lucide-react";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -9,6 +10,10 @@ type Props = {
   params: {
     courseId: string;
   };
+};
+
+export const metadata: Metadata = {
+  title: "KnowPath - Learn GPT | Create",
 };
 
 const CreateChapters = async ({ params: { courseId } }: Props) => {
