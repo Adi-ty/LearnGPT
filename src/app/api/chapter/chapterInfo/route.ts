@@ -1,10 +1,6 @@
 import { prisma } from "@/lib/db";
-import { strict_output } from "@/lib/gpt";
-import {
-  getQuestionsFromTranscript,
-  getTranscript,
-  searchYoutube,
-} from "@/lib/youtube";
+import { generateChapterContent } from "@/lib/ai";
+import { getTranscript, searchYoutube } from "@/lib/youtube";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -33,19 +29,22 @@ export async function POST(req: Request, res: Response) {
     }
 
     const videoId = await searchYoutube(chapter.youtubeSearchQuery);
+    if (!videoId) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "No youtube video found for this chapter",
+        },
+        { status: 404 }
+      );
+    }
+
     let transcript = await getTranscript(videoId);
-    transcript = transcript.split("").slice(0, 500).join("");
+    transcript = transcript.split(" ").slice(0, 500).join(" ");
 
-    const { summary }: { summary: string } = await strict_output(
-      "You are powerful AI agent capable of summarizing a youtube transcript",
-      "summarize in 250 words or less and do not talk of the sponsors or anything unrelated to the main topic, also do not introduce what the summary is about.\n" +
-        transcript,
-      { summary: "summary of the transcript" }
-    );
-
-    const questions = await getQuestionsFromTranscript(
-      transcript,
-      chapter.name
+    const { summary, questions } = await generateChapterContent(
+      chapter.name,
+      transcript
     );
 
     await prisma.question.createMany({
