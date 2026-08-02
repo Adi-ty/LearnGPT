@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   title: "KnowPath - Learn GPT | Gallery",
 };
 
+export const dynamic = "force-dynamic";
+
 const GalleryPage = async (props: Props) => {
   const courses = await prisma.course.findMany({
     include: {

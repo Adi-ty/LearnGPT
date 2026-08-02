@@ -89,11 +89,27 @@ const ConfirmChapters = ({ course }: Props) => {
               type="button"
               className="ml-4 font-semibold"
               disabled={loading}
-              onClick={() => {
+              onClick={async () => {
                 setLoading(true);
-                Object.values(chapterRefs).forEach((ref) => {
-                  ref.current?.triggerLoad();
-                });
+                // Groq's free tier caps tokens-per-minute, so generate a
+                // couple of chapters at a time rather than firing every
+                // chapter at once and driving them all into backoff.
+                const queue = Object.values(chapterRefs);
+                let next = 0;
+                const worker = async () => {
+                  while (next < queue.length) {
+                    const ref = queue[next++];
+                    try {
+                      await ref.current?.triggerLoad();
+                    } catch (error) {
+                      // ChapterCard already surfaces its own error toast;
+                      // keep the queue draining.
+                      console.error(error);
+                    }
+                  }
+                };
+                await Promise.all([worker(), worker()]);
+                setLoading(false);
               }}
             >
               Generate

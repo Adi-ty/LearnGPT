@@ -15,7 +15,7 @@ type Props = {
 };
 
 export type ChapterCardHandler = {
-  triggerLoad: () => void;
+  triggerLoad: () => Promise<void>;
 };
 
 const ChapterCard = React.forwardRef<ChapterCardHandler, Props>(
@@ -24,7 +24,7 @@ const ChapterCard = React.forwardRef<ChapterCardHandler, Props>(
 
     const [success, setSuccess] = React.useState<boolean | null>(null);
 
-    const { mutate: getChapterInfo, isLoading } = useMutation({
+    const { mutateAsync: getChapterInfo, isLoading } = useMutation({
       mutationFn: async () => {
         const response = await axios.post("/api/chapter/chapterInfo", {
           chapterId: chapter.id,
@@ -54,22 +54,19 @@ const ChapterCard = React.forwardRef<ChapterCardHandler, Props>(
           addChapterIdSet();
           return;
         }
-        getChapterInfo(undefined, {
-          onSuccess: () => {
-            setSuccess(true);
-            addChapterIdSet();
-          },
-          onError: (error) => {
-            console.error(error);
-            setSuccess(false);
-            toast({
-              title: "Error",
-              description: "Something went wrong while loading chapters",
-              variant: "destructive",
-            });
-            addChapterIdSet();
-          },
-        });
+        try {
+          await getChapterInfo();
+          setSuccess(true);
+        } catch (error) {
+          console.error(error);
+          setSuccess(false);
+          toast({
+            title: "Error",
+            description: "Something went wrong while loading chapters",
+            variant: "destructive",
+          });
+        }
+        addChapterIdSet();
       },
     }));
 
