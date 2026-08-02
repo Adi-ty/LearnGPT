@@ -40,7 +40,7 @@ export async function POST(req: Request, res: Response) {
     }
 
     let transcript = await getTranscript(videoId);
-    transcript = transcript.split(" ").slice(0, 500).join(" ");
+    transcript = transcript.trim().split(/\s+/).slice(0, 500).join(" ");
 
     const { summary, questions } = await generateChapterContent(
       chapter.name,
