@@ -42,7 +42,7 @@ export default async function Home() {
             variant="default"
             className="bg-yellow-600 dark:bg-teal-600"
           >
-            Sign In
+            Sign In now to start creating course
             <ArrowRight className="ml-2 w-5 h-5" strokeWidth={3} />
           </SignInButton>
         )}
