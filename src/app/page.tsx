@@ -1,5 +1,7 @@
+import SignInButton from "@/components/SignInButton";
 import TypewriterTitle from "@/components/TypewriterTitle";
 import { Button } from "@/components/ui/button";
+import { getAuthSession } from "@/lib/auth";
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -9,7 +11,9 @@ export const metadata: Metadata = {
   description: "KnowPath - Learn GPT is an AI powered learning platform",
 };
 
-export default function Home() {
+export default async function Home() {
+  const session = await getAuthSession();
+
   return (
     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <h1 className="font-semibbold text-5xl text-center">
@@ -26,12 +30,22 @@ export default function Home() {
       </h2>
       <div className="mt-8"></div>
       <div className="flex justify-center">
-        <Link href="/gallery">
-          <Button className="bg-yellow-600 dark:bg-teal-600">
-            Explore Now
+        {session?.user ? (
+          <Link href="/gallery">
+            <Button className="bg-yellow-600 dark:bg-teal-600">
+              Explore Now
+              <ArrowRight className="ml-2 w-5 h-5" strokeWidth={3} />
+            </Button>
+          </Link>
+        ) : (
+          <SignInButton
+            variant="default"
+            className="bg-yellow-600 dark:bg-teal-600"
+          >
+            Sign In
             <ArrowRight className="ml-2 w-5 h-5" strokeWidth={3} />
-          </Button>
-        </Link>
+          </SignInButton>
+        )}
       </div>
     </div>
   );

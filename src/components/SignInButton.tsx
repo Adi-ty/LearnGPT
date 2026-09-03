@@ -3,17 +3,22 @@ import React from "react";
 import { Button } from "./ui/button";
 import { signIn } from "next-auth/react";
 
-type Props = {};
+type Props = {
+  variant?: React.ComponentProps<typeof Button>["variant"];
+  className?: string;
+  children?: React.ReactNode;
+};
 
-const SignInButton = (props: Props) => {
+const SignInButton = ({ variant = "ghost", className, children }: Props) => {
   return (
     <Button
-      variant="ghost"
+      variant={variant}
+      className={className}
       onClick={() => {
         signIn("google");
       }}
     >
-      Sign In
+      {children ?? "Sign In"}
     </Button>
   );
 };
